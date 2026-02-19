@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prestige Motors | Location Sport & Luxe</title>
+    <style>
+        /* =========================================
+           DESIGN SYSTEM (DARK & RED SPORT)
+           ========================================= */
+        :root {
+            --bg-color: #050505;       
+            --card-bg: #111111;        
+            --text-main: #ffffff;      
+            --text-muted: #999999;     
+            --accent: #E50914;         /* Rouge Sport agressif */
+            --accent-hover: #b8060f;
+            --wa-color: #25D366;
+        }
+
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; line-height: 1.6; }
+        h1, h2, h3 { text-transform: uppercase; margin: 0; letter-spacing: 1px; }
+        a { text-decoration: none; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* HEADER / HERO */
+        header {
+            background: linear-gradient(to top, #050505, rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1614200187524-dc4b892acf16?q=80&w=1600&auto=format&fit=crop') center/cover;
+            height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 2px solid var(--accent);
+        }
+        header h1 { font-size: 3.5rem; color: #fff; margin-bottom: 10px; font-weight: 800; text-shadow: 2px 2px 10px rgba(0,0,0,0.8); }
+        header h1 span { color: var(--accent); }
+        .tagline { font-size: 1.2rem; color: #ddd; text-transform: uppercase; letter-spacing: 3px; }
+
+        /* CATALOGUE (GRILLE) */
+        .catalog { padding: 80px 0; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; }
+        .section-title span { border-bottom: 3px solid var(--accent); padding-bottom: 10px; }
+
+        .fleet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+        
+        .car-card { background: var(--card-bg); border-radius: 8px; overflow: hidden; border: 1px solid #222; transition: 0.3s; display: flex; flex-direction: column; }
+        .car-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(229, 9, 20, 0.1); }
+        .car-img { width: 100%; height: 250px; object-fit: cover; border-bottom: 2px solid #222; }
+        
+        .car-info { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        .car-title { font-size: 1.5rem; margin-bottom: 15px; }
+        
+        .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; background: #0a0a0a; padding: 15px; border-radius: 5px; border: 1px solid #1a1a1a; }
+        .price-item { display: flex; flex-direction: column; }
+        .price-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+        .price-value { font-size: 1.1rem; font-weight: bold; color: var(--accent); }
+        
+        .btn-reserve { background: var(--accent); color: #fff; border: none; padding: 15px; width: 100%; font-size: 1rem; font-weight: bold; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: 0.3s; margin-top: auto; }
+        .btn-reserve:hover { background: var(--accent-hover); }
+
+        /* =========================================
+           MODAL DE RÉSERVATION (POP-UP)
+           ========================================= */
+        .modal { display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); overflow-y: auto; padding: 40px 0; }
+        .modal-content { background: var(--card-bg); margin: 0 auto; width: 90%; max-width: 1000px; border-radius: 8px; border: 1px solid var(--accent); display: flex; flex-wrap: wrap; overflow: hidden; position: relative; }
+        
+        .close-btn { position: absolute; top: 15px; right: 20px; color: #fff; font-size: 30px; font-weight: bold; cursor: pointer; z-index: 10; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 35px; }
+        .close-btn:hover { background: var(--accent); }
+
+        /* PARTIE GAUCHE : SLIDER AUTO */
+        .slider-container { flex: 1; min-width: 300px; background: #000; position: relative; }
+        .slide { display: none; width: 100%; height: 100%; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; min-height: 400px; }
+        .fade { animation-name: fadeAnim; animation-duration: 1.5s; }
+        @keyframes fadeAnim { from {opacity: .4} to {opacity: 1} }
+
+        /* PARTIE DROITE : FORMULAIRE */
+        .form-container { flex: 1; min-width: 300px; padding: 40px; display: flex; flex-direction: column; }
+        .form-container h2 { margin-bottom: 5px; color: var(--accent); }
+        .form-subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; }
+
+        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.8rem; color: #aaa; margin-bottom: 5px; text-transform: uppercase; }
+        .form-control { width: 100%; padding: 12px; background: #0a0a0a; border: 1px solid #333; color: #fff; border-radius: 4px; box-sizing: border-box; font-family: inherit; font-size: 1rem; }
+        .form-control:focus { outline: none; border-color: var(--accent); }
+
+        .action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .btn-wa { background: var(--wa-color); color: #fff; border: none; padding: 15px; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; font-size: 0.9rem; }
+        .btn-wa:hover { background: #1ebe57; }
+        .btn-mail { background: #222; color: #fff; border: 1px solid #444; padding: 15px; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; font-size: 0.9rem; }
+        .btn-mail:hover { background: #333; }
+
+        @media (max-width: 768px) {
+            .input-row { grid-template-columns: 1fr; }
+            .action-buttons { grid-template-columns: 1fr; }
+            .modal-content { flex-direction: column; }
+            .slider-container { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <p class="tagline">L'Excellence n'attend pas</p>
+        <h1>Prestige <span>Motors</span></h1>
+    </div>
+</header>
+
+<section class="catalog">
+    <div class="container">
+        <h2 class="section-title"><span>Notre Flotte</span></h2>
+        
+        <div class="fleet-grid">
+            
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=800&auto=format&fit=crop" alt="Audi RS3" class="car-img">
+                <div class="car-info">
+                    <h3 class="car-title">Audi RS3 Sportback</h3>
+                    <div class="pricing-grid">
+                        <div class="price-item"><span class="price-label">24 Heures</span><span class="price-value">250 €</span></div>
+                        <div class="price-item"><span class="price-label">Week-end</span><span class="price-value">600 €</span></div>
+                        <div class="price-item"><span class="price-label">Semaine</span><span class="price-value">1 400 €</span></div>
+                        <div class="price-item"><span class="price-label">Caution</span><span class="price-value" style="color:#fff;">3 000 €</span></div>
+                    </div>
+                    <button class="btn-reserve" onclick="openBookingModal('Audi RS3 Sportback', [
+                        'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=800&auto=format&fit=crop',
+                        'https://images.unsplash.com/photo-1614200187524-dc4b892acf16?q=80&w=800&auto=format&fit=crop',
+                        'https://images.unsplash.com/photo-1606664515524-ed2f786a0b34?q=80&w=800&auto=format&fit=crop'
+                    ])">Réserver ce véhicule</button>
+                </div>
+            </div>
+
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1520031441872-265e4ff70366?q=80&w=800&auto=format&fit=crop" alt="Mercedes Classe G" class="car-img">
+                <div class="car-info">
+                    <h3 class="car-title">Mercedes Classe G63</h3>
+                    <div class="pricing-grid">
+                        <div class="price-item"><span class="price-label">24 Heures</span><span class="price-value">550 €</span></div>
+                        <div class="price-item"><span class="price-label">Week-end</span><span class="price-value">1 300 €</span></div>
+                        <div class="price-item"><span class="price-label">Semaine</span><span class="price-value">3 500 €</span></div>
+                        <div class="price-item"><span class="price-label">Caution</span><span class="price-value" style="color:#fff;">5 000 €</span></div>
+                    </div>
+                    <button class="btn-reserve" onclick="openBookingModal('Mercedes Classe G63 AMG', [
+                        'https://images.unsplash.com/photo-1520031441872-265e4ff70366?q=80&w=800&auto=format&fit=crop',
+                        'https://images.unsplash.com/photo-1559400645-816790d979eb?q=80&w=800&auto=format&fit=crop',
+                        'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=800&auto=format&fit=crop'
+                    ])">Réserver ce véhicule</button>
+                </div>
+            </div>
+
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1503376710356-7386908061b4?q=80&w=800&auto=format&fit=crop" alt="Porsche 911" class="car-img">
+                <div class="car-info">
+                    <h3 class="car-title">Porsche 911 GT3</h3>
+                    <div class="pricing-grid">
+                        <div class="price-item"><span class="price-label">24 Heures</span><span class="price-value">700 €</span></div>
+                        <div class="price-item"><span class="price-label">Week-end</span><span class="price-value">1 800 €</span></div>
+                        <div class="price-item"><span class="price-label">Semaine</span><span class="price-value">4 500 €</span></div>
+                        <div class="price-item"><span class="price-label">Caution</span><span class="price-value" style="color:#fff;">8 000 €</span></div>
+                    </div>
+                    <button class="btn-reserve" onclick="openBookingModal('Porsche 911 GT3', [
+                        'https://images.unsplash.com/photo-1503376710356-7386908061b4?q=80&w=800&auto=format&fit=crop',
+                        'https://images.unsplash.com/photo-1580274455009-724d2627e361?q=80&w=800&auto=format&fit=crop'
+                    ])">Réserver ce véhicule</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div id="bookingModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        
+        <div class="slider-container" id="dynamicSlider">
+            </div>
+
+        <div class="form-container">
+            <h2 id="modalCarName">Nom du véhicule</h2>
+            <p class="form-subtitle">Veuillez remplir vos informations pour vérifier la disponibilité.</p>
+
+            <div class="input-row">
+                <div class="form-group">
+                    <label>Prénom</label>
+                    <input type="text" id="f_prenom" class="form-control" placeholder="Jean">
+                </div>
+                <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" id="f_nom" class="form-control" placeholder="Dupont">
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="form-group">
+                    <label>Âge</label>
+                    <input type="number" id="f_age" class="form-control" placeholder="Ex: 25">
+                </div>
+                <div class="form-group">
+                    <label>Année du Permis</label>
+                    <input type="number" id="f_permis" class="form-control" placeholder="Ex: 2018">
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="form-group">
+                    <label>Téléphone</label>
+                    <input type="tel" id="f_tel" class="form-control" placeholder="06 12 34 56 78">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="f_mail" class="form-control" placeholder="contact@email.com">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Dates souhaitées</label>
+                <input type="text" id="f_dates" class="form-control" placeholder="Du 15 Mai au 18 Mai">
+            </div>
+
+            <div class="action-buttons">
+                <button onclick="submitBooking('wa')" class="btn-wa">📱 Envoyer (WhatsApp)</button>
+                <button onclick="submitBooking('email')" class="btn-mail">✉️ Envoyer (Email)</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Configuration de l'agence
+    const AGENCY_PHONE = "33600000000"; // Remplacer par le numéro du client
+    const AGENCY_EMAIL = "contact@agence.com"; // Remplacer par l'email du client
+    
+    let currentCar = "";
+    let slideIndex = 0;
+    let slideTimer;
+
+    // Ouvrir la pop-up
+    function openBookingModal(carName, imagesArray) {
+        currentCar = carName;
+        document.getElementById("modalCarName").innerText = carName;
+        
+        // Créer le slider
+        const sliderDiv = document.getElementById("dynamicSlider");
+        sliderDiv.innerHTML = ""; // Vider l'ancien slider
+        
+        imagesArray.forEach(imgSrc => {
+            let div = document.createElement("div");
+            div.className = "slide fade";
+            div.innerHTML = `<img src="${imgSrc}" alt="${carName}">`;
+            sliderDiv.appendChild(div);
+        });
+
+        document.getElementById("bookingModal").style.display = "block";
+        document.body.style.overflow = "hidden"; // Empêche de scroller derrière
+        
+        // Démarrer l'animation automatique
+        slideIndex = 0;
+        showSlides();
+    }
+
+    // Fermer la pop-up
+    function closeModal() {
+        document.getElementById("bookingModal").style.display = "none";
+        document.body.style.overflow = "auto";
+        clearTimeout(slideTimer); // Arrêter le défilement
+    }
+
+    // Fonction de défilement automatique des photos
+    function showSlides() {
+        let slides = document.getElementsByClassName("slide");
+        if(slides.length === 0) return;
+        
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";  
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}    
+        slides[slideIndex-1].style.display = "block";  
+        slideTimer = setTimeout(showSlides, 3000); // Change l'image toutes les 3 secondes
+    }
+
+    // Fonction d'envoi des données
+    function submitBooking(method) {
+        let prenom = document.getElementById("f_prenom").value;
+        let nom = document.getElementById("f_nom").value;
+        let age = document.getElementById("f_age").value;
+        let permis = document.getElementById("f_permis").value;
+        let tel = document.getElementById("f_tel").value;
+        let mail = document.getElementById("f_mail").value;
+        let dates = document.getElementById("f_dates").value;
+
+        // Vérification basique
+        if(!prenom || !nom || !age || !permis || !tel || !dates) {
+            alert("⚠️ Merci de remplir tous les champs obligatoires pour finaliser la demande.");
+            return;
+        }
+
+        // Création du message
+        let text = `🚘 NOUVELLE DEMANDE DE RÉSERVATION\n\n`;
+        text += `Modèle : *${currentCar}*\n`;
+        text += `Dates : ${dates}\n\n`;
+        text += `📋 INFOS CLIENT :\n`;
+        text += `- Nom : ${prenom} ${nom}\n`;
+        text += `- Âge : ${age} ans\n`;
+        text += `- Permis obtenu en : ${permis}\n`;
+        text += `- Tél : ${tel}\n`;
+        if(mail) text += `- Email : ${mail}\n`;
+
+        let subject = `Réservation : ${currentCar} - ${prenom} ${nom}`;
+
+        // Envoi
+        if (method === 'wa') {
+            window.open(`https://wa.me/${AGENCY_PHONE}?text=${encodeURIComponent(text)}`, '_blank');
+        } else {
+            window.location.href = `mailto:${AGENCY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+        }
+    }
+
+    // Fermer la pop-up si on clique en dehors
+    window.onclick = function(event) {
+        let modal = document.getElementById("bookingModal");
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+</script>
+
+</body>
+</html>
